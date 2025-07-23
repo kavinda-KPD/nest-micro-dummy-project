@@ -1,12 +1,30 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { GatewayServiceService } from './gateway-service.service';
+import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
+import { GAME_SERVICE } from '../constant';
 
-@Controller()
+@Controller('api')
 export class GatewayServiceController {
-  constructor(private readonly gatewayServiceService: GatewayServiceService) {}
+  constructor(
+    private readonly gatewayServiceService: GatewayServiceService,
+
+    @Inject(GAME_SERVICE) private readonly _gameService: ClientProxy,
+  ) {}
 
   @Get()
   getHello(): string {
     return this.gatewayServiceService.getHello();
+  }
+
+  @Post('/game')
+  createGame(@Body() body: any) {
+    console.log('gateway service', body);
+
+    lastValueFrom(this._gameService.send('create-game', body));
+
+    return {
+      message: 'Game created',
+    };
   }
 }
