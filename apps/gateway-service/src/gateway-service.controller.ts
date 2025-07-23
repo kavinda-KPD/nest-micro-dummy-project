@@ -21,4 +21,9 @@ export class GatewayServiceController {
   async createGame(@Body() body: any) {
     return await firstValueFrom(this._gameService.send('create-game', body));
   }
+
+  @Get('/paid-game')
+  async getPaidGames() {
+    return await firstValueFrom(this._gameService.send('get-paid-games', {}));
+  }
 }

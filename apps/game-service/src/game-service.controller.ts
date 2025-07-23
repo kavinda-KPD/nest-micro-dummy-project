@@ -10,4 +10,9 @@ export class GameServiceController {
   async createGame(@Payload() body: any) {
     return await this.gameServiceService.createGame(body);
   }
+
+  @MessagePattern('get-paid-games')
+  async getPaidGames() {
+    return await this.gameServiceService.getPaidGames();
+  }
 }
