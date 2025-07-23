@@ -18,13 +18,7 @@ export class GatewayServiceController {
   }
 
   @Post('/game')
-  createGame(@Body() body: any) {
-    console.log('gateway service', body);
-
-    lastValueFrom(this._gameService.send('create-game', body));
-
-    return {
-      message: 'Game created',
-    };
+  async createGame(@Body() body: any) {
+    return await lastValueFrom(this._gameService.send('create-game', body));
   }
 }
