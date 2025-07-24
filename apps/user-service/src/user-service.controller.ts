@@ -15,4 +15,9 @@ export class UserServiceController {
   async getPaidGames() {
     return await this.userServiceService.getPaidGames();
   }
+
+  @MessagePattern('userController.payment-history')
+  async paymentHistory() {
+    return await this.userServiceService.paymentHistory();
+  }
 }

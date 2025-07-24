@@ -2,7 +2,7 @@ import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { GatewayServiceService } from './gateway-service.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
-import { GAME_SERVICE } from '../constant';
+import { GAME_SERVICE, USER_SERVICE } from '../constant';
 
 @Controller('api')
 export class GatewayServiceController {
@@ -10,6 +10,8 @@ export class GatewayServiceController {
     private readonly gatewayServiceService: GatewayServiceService,
 
     @Inject(GAME_SERVICE) private readonly _gameService: ClientProxy,
+
+    @Inject(USER_SERVICE) private readonly _userService: ClientProxy,
   ) {}
 
   @Get()
@@ -25,5 +27,12 @@ export class GatewayServiceController {
   @Get('/paid-game')
   async getPaidGames() {
     return await firstValueFrom(this._gameService.send('get-paid-games', {}));
+  }
+
+  @Get('/payment-history')
+  async getPaidGames2() {
+    return await firstValueFrom(
+      this._userService.send('userController.payment-history', {}),
+    );
   }
 }

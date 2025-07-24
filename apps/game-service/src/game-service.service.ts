@@ -24,4 +24,17 @@ export class GameServiceService {
       this._userService.send('userController.get-paid-games', {}),
     );
   }
+
+  async paymentHistory(): Promise<any> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          success: true,
+          data: [],
+          message:
+            'Simulated DB call complete payment history from game service',
+        });
+      }, 2000);
+    });
+  }
 }
